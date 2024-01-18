@@ -1,0 +1,53 @@
+ .example-card {
+    background-color: #4695D6;
+    width: 300px;
+    margin-bottom: 20px;
+  }
+
+.name{
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    
+}
+
+.mat-card-title{
+  font-family: 'Brush Script', cursive, sans-serif;
+}
+
+.image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden; 
+  margin-bottom: 20px;
+}
+  
+  .imageMale {
+    background-color: #234B6B;
+
+  }
+
+  .imageFemale {
+    background-color: #bb067e;
+
+  }
+  .imageOther {
+    background-color: #590266;
+    /* background: linear-gradient(to left, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787); */
+
+  }
+  
+  .image img {
+    margin-top: 1px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+  }
+
+  a{
+    text-decoration: none;
+  }
+
+  .example-card:hover{
+    background-color: #6BAADE;
+  }

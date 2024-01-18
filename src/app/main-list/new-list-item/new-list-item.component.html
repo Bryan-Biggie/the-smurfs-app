@@ -1,0 +1,27 @@
+<div class="form-container">   
+  <div class="overlay">
+    <div class="wrap">
+      <form [formGroup]="smurfForm">
+      <h1> ♥ New Smurf! ♥</h1>
+            <div class="btn">
+        <input id="back" routerLinkActive="active" routerLink="/mainList" type="submit" value="BACK TO LIST">
+      <input id="create" (click)="onAddToList()" type="submit" value="CREATE">
+      </div>
+      <input type="text" id="name"  maxlength="50" placeholder="Smurf Name" required formControlName="itemName">
+      <textarea id="description"  maxlength="900" placeholder="Details about the Smurf" required formControlName="itemDescription"></textarea>
+      <input type="text" id="imagePath"  placeholder="IMAGE URL:  https://imgage.com/image.png " required formControlName="itemImagePath">
+      <select id="sex"  required formControlName="itemSex">
+        <option [value]="null" disabled>Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="number" id="height"  placeholder="Height (cm)" required min="1" max="300" formControlName="itemHeight">
+      <input type="number" id="age"  placeholder="Age" required min="1" max="700" formControlName="itemAge">
+
+      
+      
+    </form>
+    </div>
+  </div>  
+  </div>

@@ -1,0 +1,20 @@
+
+<a routerLink="/mainList/itemDetails/{{item.id}}">
+  <mat-card class="example-card">
+  <div 
+  class="image"
+  [ngClass]="{ imageMale: item.sex === 'Male', imageFemale: item.sex === 'Female', imageOther: item.sex === 'Other'}"
+  >
+    <img
+      mat-card-image
+      src="{{item.imagePath}}"
+      alt="Photo of a Smurf"      
+    />
+  </div>
+  <div class="name">
+    <mat-card-header>
+      <mat-card-title>{{ item.name }}</mat-card-title>
+    </mat-card-header>
+  </div>
+</mat-card>
+</a>

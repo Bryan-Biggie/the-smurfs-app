@@ -1,0 +1,21 @@
+<div class="heading">
+  <h1 class="title">SMURF CHARACTERS</h1>
+
+  <div class="sub-heading">
+    <button
+      mat-raised-button
+      color="primary"
+      routerLink="/mainList/addNewSmurf"
+    >
+      CREATE A NEW SMURF
+    </button>
+  </div>
+</div>
+<hr />
+
+<div class="container">
+  <app-list-item
+    *ngFor="let itemEl of items"
+    [item]="itemEl"
+  ></app-list-item>
+</div>

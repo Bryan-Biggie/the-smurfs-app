@@ -16,8 +16,12 @@ export class ListItemEditComponent implements OnInit {
   constructor(private listService: MainListService, private activatedRoute: ActivatedRoute) { 
   }
   ngOnInit(): void {
-    this.itemId = +this.activatedRoute.snapshot.paramMap.get('id');
-    this.item = this.listService.getItems().find(x => x.id === this.itemId);
+    // this.itemId = +this.activatedRoute.snapshot.paramMap.get('id');
+    // this.item = this.listService.getItems().find(x => x.id === this.itemId);
+
+    this.activatedRoute.paramMap.subscribe((data) => {
+      this.item = this.listService.getItems().find(x => x.id === +data.get('id'));
+    });
   }
 
   onUpdateItem(){

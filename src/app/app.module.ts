@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
+
+import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MainListComponent } from './main-list/main-list.component';
@@ -15,6 +16,11 @@ import { ListItemEditComponent } from './main-list/list-item-edit/list-item-edit
 import { NewListItemComponent } from './main-list/new-list-item/new-list-item.component';
 import { TheListItemsComponent } from './main-list/the-list-items/the-list-items.component';
 import { MainListService } from './main-list/main-list.service';
+
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { DialogComponent } from './main-list/dialog/dialog.component';
+import { LoaderComponent } from './main-list/loader/loader.component';
+
 
 
 
@@ -28,17 +34,22 @@ import { MainListService } from './main-list/main-list.service';
     ListItemDetailComponent,
     ListItemEditComponent,
     NewListItemComponent,
-    TheListItemsComponent
+    TheListItemsComponent,
+    DialogComponent,
+    LoaderComponent
   ],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AngularMaterialModule,
   ],
   providers: [MainListService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
 export class AppModule { }

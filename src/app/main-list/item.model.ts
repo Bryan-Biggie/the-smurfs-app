@@ -4,12 +4,14 @@ export class Item {
     public description: string;
     public imagePath: string;
     public sex: string;
-    public height: number;
+    
     public age: number;
+    public height: number;
+    public idData?: string;
     
     
   
-    constructor(id:number, name: string, desc: string, imagePath: string, sex: string, age: number, height: number) {
+    constructor(id:number, name: string, desc: string, imagePath: string, sex: string, height: number, age: number,  idData?: string) {
       this.id = id;
       this.name = name;
       this.description = desc;
@@ -17,5 +19,6 @@ export class Item {
       this.sex = sex;
       this.height = height;
       this.age = age;
+      this.idData = idData;
     }
   }

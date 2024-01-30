@@ -6,14 +6,24 @@
       mat-raised-button
       color="primary"
       routerLink="/mainList/addNewSmurf"
-    >
-      CREATE A NEW SMURF
+    ><mat-icon>add_box</mat-icon> 
+      CREATE NEW SMURF 	
+      
     </button>
+    
   </div>
+  <!-- <mat-form-field>
+    <mat-label>Manage Data</mat-label>
+    <mat-select>
+      <mat-option value="save" (click)="onSaveData()">Save Data</mat-option>
+      <mat-option value="fetch" (click)="onFetchData()">Fetch Data</mat-option>
+    </mat-select>
+  </mat-form-field> -->
 </div>
 <hr />
 
 <div class="container">
+  
   <app-list-item
     *ngFor="let itemEl of items"
     [item]="itemEl"

@@ -1,7 +1,7 @@
 <div class="form-container">   
   <div class="overlay">
     <div class="wrap">
-      <form [formGroup]="smurfForm">
+      <!-- <form [formGroup]="smurfForm">
       <h1> ♥ New Smurf! ♥</h1>
             <div class="btn">
         <input id="back" routerLinkActive="active" routerLink="/mainList" type="submit" value="BACK TO LIST">
@@ -21,7 +21,91 @@
 
       
       
+    </form> -->
+
+    <form [formGroup]="smurfForm" (ngSubmit)="onAddToList()">
+      <h1> ♥ New Smurf! ♥</h1>
+    
+      <p>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Smurf Name:</mat-label>
+          <input matInput maxlength="50" placeholder="Smurf Name" maxlength="20" required formControlName="itemName">
+          <mat-hint align="end">{{smurfForm.get('itemName').value?.length || 0}}/20</mat-hint>
+          <mat-error *ngIf="smurfForm.get('itemName').hasError('required') && smurfForm.get('itemName').touched">
+            Smurf Name is required.
+          </mat-error>
+          <mat-error *ngIf="smurfForm.get('itemName').hasError('maxlength') && smurfForm.get('itemName').touched">
+            Maximum length is 20 characters.
+          </mat-error>
+        </mat-form-field>
+      </p>
+    
+      <p>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Details about the Smurf:</mat-label>
+          <textarea matInput maxlength="900" placeholder="Details about the Smurf" maxlength="600" required formControlName="itemDescription"></textarea>
+          <mat-hint align="end">{{smurfForm.get('itemDescription').value?.length || 0}}/600</mat-hint>
+          <mat-error *ngIf="smurfForm.get('itemDescription').hasError('required') && smurfForm.get('itemDescription').touched">
+            Description is required.
+          </mat-error>
+          <mat-error *ngIf="smurfForm.get('itemDescription').hasError('maxlength') && smurfForm.get('itemDescription').touched">
+            Maximum length is 600 characters.
+          </mat-error>
+        </mat-form-field>
+      </p>
+    
+      <p>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Image Url:</mat-label>
+          <input matInput placeholder="IMAGE URL:  https://imgage.com/image.png" required formControlName="itemImagePath">
+          <mat-error *ngIf="smurfForm.get('itemImagePath').hasError('required') && smurfForm.get('itemImagePath').touched">
+            Image Path is required.
+          </mat-error>
+        </mat-form-field>
+      </p>
+    
+      <p>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Select Gender:</mat-label>
+          <mat-select required formControlName="itemSex">
+            <mat-option [value]="null" disabled>Select Gender</mat-option>
+            <mat-option value="Male">Male</mat-option>
+            <mat-option value="Female">Female</mat-option>
+            <mat-option value="Other">Other</mat-option>
+          </mat-select>
+          <mat-error *ngIf="smurfForm.get('itemSex').hasError('required') && smurfForm.get('itemSex').touched">
+            Gender is required.
+          </mat-error>
+        </mat-form-field>
+      </p>
+    
+      <p>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Age:</mat-label>
+          <input matInput type="number" placeholder="Height (cm)" required min="10" max="100" formControlName="itemHeight">
+          <mat-error *ngIf="(smurfForm.get('itemHeight').hasError('required') || smurfForm.get('itemHeight').hasError('min') || smurfForm.get('itemHeight').hasError('max')) && smurfForm.get('itemHeight').touched">
+            Please enter a valid age between 20 and 100.
+          </mat-error>
+        </mat-form-field>
+      </p>
+    
+      <p>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Height (cm):</mat-label>
+          <input matInput type="number" placeholder="Age" required min="1" max="700" formControlName="itemAge">
+          <mat-error *ngIf="(smurfForm.get('itemAge').hasError('required') || smurfForm.get('itemAge').hasError('min') || smurfForm.get('itemAge').hasError('max')) && smurfForm.get('itemAge').touched">
+            Please enter a valid height between 10 and 100.
+          </mat-error>
+        </mat-form-field>
+      </p>
+    
+      <div class="btn">
+        <button mat-raised-button color="primary" type="submit" [disabled]="smurfForm.invalid">CREATE <mat-icon>save_alt</mat-icon></button>
+        <button mat-raised-button routerLink="/mainList"> <mat-icon>reply</mat-icon> BACK TO LIST</button>
+      </div>
     </form>
+    
+    
     </div>
   </div>  
   </div>

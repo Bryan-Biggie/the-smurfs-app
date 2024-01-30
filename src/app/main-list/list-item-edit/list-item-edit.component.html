@@ -3,9 +3,8 @@
           <img mat-card-image src="{{item.imagePath}}" alt="Photo of a Papa Smurf">
     
       </div> 
-    <form>
+    <!-- <form>
         <h1>Edit The Smurf ID: {{item.id}}</h1>
-    
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" maxlength="50" [(ngModel)]="item.name" required>
       
@@ -30,9 +29,65 @@
         <input type="number" id="age" name="age" [(ngModel)]="item.age" required min="1" max="100">
       
         <button type="submit" (click)="onUpdateItem()" routerLink="/mainList/itemDetails/{{item.id}}">SAVE CHANGES</button>
-      </form>
+      </form> -->
+
+      <form>
+        <h1>Edit The Smurf ID: {{item.id}}</h1>
+        
+        <p>
+            <mat-form-field hintLabel="Max 50 characters" appearance="fill">
+                <mat-label>Name:</mat-label>
+                <input matInput id="name" name="name" maxlength="50" [(ngModel)]="item.name" required>
+                <mat-hint align="end">{{item.name.length}}/50</mat-hint>
+            </mat-form-field>
+        </p>
+    
+        <p>
+          <mat-form-field hintLabel="Max 600 characters" appearance="fill">
+                <mat-label>Description:</mat-label>
+                <textarea matInput id="description" name="description" [(ngModel)]="item.description" maxlength="600" class="desc-area" required></textarea>
+                <mat-hint align="end">{{item.description.length}}/600</mat-hint>
+            </mat-form-field>
+        </p>
+    
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Image Path Url:</mat-label>
+                <input matInput id="imagePath" name="imagePath" [(ngModel)]="item.imagePath" placeholder="IMAGE URL:  https://imgage.com/image.png" required>
+            </mat-form-field>
+        </p>
+    
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Sex/Gender:</mat-label>
+                <mat-select id="sex" name="sex" [(ngModel)]="item.sex" required>
+                    <mat-option [value]="null" disabled>Select Gender</mat-option>
+                    <mat-option value="Male">Male</mat-option>
+                    <mat-option value="Female">Female</mat-option>
+                    <mat-option value="Other">Other</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+    
+        <p>
+            <mat-form-field hintLabel="10 < Height < 100" appearance="fill">
+                <mat-label>Height (cm):</mat-label>
+                <input matInput type="number" id="height" name="height" [(ngModel)]="item.age" required min="10" max="100">
+            </mat-form-field>
+        </p>
+    
+        <p>
+            <mat-form-field hintLabel="20 < Age < 100" appearance="fill">
+                <mat-label>Age:</mat-label>
+                <input matInput type="number" id="age" name="age"  [(ngModel)]="item.height" required min="1" max="100">
+            </mat-form-field>
+        </p>
+    
+        <button mat-raised-button type="submit" (click)="onUpdateItem()" routerLink="/mainList/itemDetails/{{item.id}}">SAVE CHANGES <mat-icon>save</mat-icon></button>
+    </form>
 
      </div>
+
 
 
     <!-- 10< h: >100 -->

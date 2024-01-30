@@ -1,0 +1,81 @@
+/*=============== LOADER ===============*/
+.loader {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    inset: 0;
+    z-index: 2;
+    border-radius: 5px;
+    animation: loading 300ms forwards;
+    /* animation-delay: 14s; */
+    transform-origin: center;
+    /* Style d'arrière plan du loading 
+    source : https://youtu.be/3HRvb2tLqF4?si=dAvqkS3wlmoNzTr4 */
+    /* Style d'animation de cercle 
+    source : https://youtu.be/U3hCPkV9SnU?si=dl3_HEngwzSLMRHx */
+  }
+  .loader__background--glass {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: initial;
+    justify-content: initial;
+    align-items: center;
+    gap: initial;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+  .loader__circle {
+    margin: auto;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 7px solid transparent;
+    border-top-color: #3877AB;
+    animation: circle 2s linear infinite;
+  }
+  .loader__circle::before, .loader__circle::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 7px solid transparent;
+  }
+  .loader__circle::before {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-top-color: #5291C5;
+    animation: circle 3s linear infinite;
+  }
+  .loader__circle::after {
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+    border-top-color: #6BAADE;
+    animation: circle 1.5s linear infinite;
+  }
+  
+  @keyframes circle {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loading {
+    0% {
+      transform: scale(1);
+    }
+    /* 100% {
+      transform: scale(0);
+      display: none;
+    } */
+  }

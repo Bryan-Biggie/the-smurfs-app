@@ -2,12 +2,21 @@
 *{
     box-sizing: border-box;
 }
+
+/* .dot{
+  background-color: #234B6B;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
 .form-container {
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    
   }
+  
   h1{
     text-align: center;
     font-family: 'Comic Neue', cursive;
@@ -29,12 +38,28 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  label {
+  /* label {
     display: block;
     margin-bottom: 8px;
+  } */
+
+  .mat-form-field{
+    background-color: #1b71b8;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #234B6B;
+    border-radius: 4px;
+  }
+
+  .desc-area{
+    padding: 5px;
+    /* box-sizing: border-box;
+    border: none; */
   }
   
-  input[type="text"],input[type="number"],
+  /* input[type="text"],input[type="number"],
   textarea, select {
     width: 100%;
     padding: 8px;
@@ -42,7 +67,7 @@ form {
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+  } */
   
   button {
     background-color: #152D40;
@@ -67,7 +92,7 @@ form {
 
   }
   
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 851px) {
     .form-container {
       flex-direction: column; /* Stack items vertically */
       align-items: center;

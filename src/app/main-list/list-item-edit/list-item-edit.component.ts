@@ -3,6 +3,7 @@ import { Item } from '../item.model';
 import { MainListService } from '../main-list.service';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-list-item-edit',
   templateUrl: './list-item-edit.component.html',
@@ -12,21 +13,25 @@ import { ActivatedRoute } from '@angular/router';
 export class ListItemEditComponent implements OnInit {
   item: Item;
   itemId;
+  items: Item[];
 
   constructor(private listService: MainListService, private activatedRoute: ActivatedRoute) { 
   }
   ngOnInit(): void {
-    // this.itemId = +this.activatedRoute.snapshot.paramMap.get('id');
-    // this.item = this.listService.getItems().find(x => x.id === this.itemId);
+
+    this.listService.itemsChanged.subscribe((itemsChanged)=>{
+      this.items = itemsChanged;
+    });
 
     this.activatedRoute.paramMap.subscribe((data) => {
-      this.item = this.listService.getItems().find(x => x.id === +data.get('id'));
+      this.item = this.items.find(x => x.id === +data.get('id'));
     });
   }
 
   onUpdateItem(){
+    
     this.listService.updateItem(this.item);
-    alert('The changes made to Smurf have been saved!')
+    
   }
 
 }

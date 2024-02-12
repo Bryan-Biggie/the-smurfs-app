@@ -1,27 +1,91 @@
-# SmurfsWebsiteApp
+# The Smurfs Website 🍄
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.19.
+### Smurfs Website App - REST API with Firebase and Angular
 
-## Development server
+Welcome to The Smurfs Website! Explore the magical world of Smurfs with our CRUD (Create, Read, Update, Delete) application that allows you to view, edit, add, and delete Smurf characters. 🌈
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Introduction
 
-## Code scaffolding
+Dive into the enchanting universe of Smurfs with our interactive website. Whether you're a die-hard fan or just curious, The Smurfs Website offers a delightful experience for users of all ages. 🎉
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Features
 
-## Build
+- View all your favorite Smurf characters.
+- Edit existing Smurf profiles to customize their details.
+- Add new Smurfs to expand your collection.
+- Delete Smurfs you no longer wish to keep track of.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Technologies Used
 
-## Running unit tests
+- ✅ Angular Material: Provides sleek UI components and responsive design.
+- ✅ Angular: Frontend framework for building dynamic web applications.
+- ✅ AG Grid: Powerful grid component for displaying and managing data.
+- ✅ FusionCharts: Renders beautiful and interactive charts for data visualization.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Not Implemented (Maybe in a Future Version)
 
-## Running end-to-end tests
+- 🚧 Security (Authorization and Authentication)
+- 🚧 Caching
+- 🚧 Data Compression
+- 🚧 Throttling and Rate-limiting
+- 🚧 Profiling the app
+- 🚧 Test Containers
+- 🚧 Docker Build
+- 🚧 Spring Boot: Backend framework for building robust and scalable applications.
+- 🚧 Java model class with validation
+- 🚧 JPA repository
+- 🚧 JPA Pagination
+- 🚧 MySQL database (can you any database of your preference)
+- 🚧 Controller, Service, and Repository layers
+- 🚧 Has-Many relationships (Course-Lessons)
+- 🚧 Java 17 Records as DTO (Data Transfer Object)
+- 🚧 Hibernate / Jakarta Validation
+- 🚧 Unit tests for all layers (repository, service, controller)
+- 🚧 Test coverage for tests
+- 🚧 Spring Docs - Swagger (https://springdoc.org/v2/)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Main Page with Pagination
 
-## Further help
+<p align="center">
+  <img src="./docs/main.jpeg" alt="Main Page" width="100%">
+</p>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Getting Started
+
+To explore The Smurfs Website on your local machine, follow these simple steps:
+
+1. Clone the repository to your local machine:
+
+```
+git clone https://github.com/Bryan-Biggie/the-smurfs-app.git
+```
+
+2. Navigate to the project directory:
+
+```
+cd the-smurfs-app
+```
+
+3. Install dependencies:
+
+```
+npm install
+```
+
+4. Run the frontend:
+
+```
+ng serve
+```
+
+### Open your preferred web browser and navigate to http://localhost:4200.
+
+### Start discovering and managing your Smurf characters!
+
+## License
+
+This project is licensed under the MIT License. Feel free to modify and distribute it as needed.
+
+Enjoy your Smurf-tastic journey! 🍄✨
+

@@ -1,0 +1,23 @@
+.grid{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    padding-right: 20px;
+    /* text-align:center; */
+    color: #0b2b46 !important;
+    /* margin-top:20%; */
+    font: 20% cursive;
+    font-style: cursive;
+    text-shadow: 0px 4px 3px rgba(0, 0, 0, 0.4), 0px 8px 13px rgba(0, 0, 0, 0.1),
+      0px 18px 23px rgba(0, 0, 0, 0.1);
+      font-size: 150%;
+  }
+
+  .ag-theme-alpine {
+    /* --ag-background-color: #5eafd4; */
+    --ag-active-color: #5eabcc;
+    --ag-odd-row-background-color: #5eabcc;
+}

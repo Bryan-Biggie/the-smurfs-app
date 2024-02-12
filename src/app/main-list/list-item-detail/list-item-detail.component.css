@@ -9,10 +9,11 @@
     display: flex; /* Use flexbox to arrange items horizontally */
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
   }
   
   .image {
-    width: 40%; /* Adjust the width of the image container */
+    width: 50%; /* Adjust the width of the image container */
     height: 300px; /* Set the desired height of the image container */
     overflow: hidden; /* Hide any overflow from the image */
     margin-right: 40px;
@@ -57,76 +58,30 @@
   }
   h1{
     font-family: 'Brush Script', cursive, sans-serif;
-    font-size: 350%;
+    font-size: 300%;
     padding: 30px 0;
     line-height: 1.0;
     text-transform: uppercase;
+    margin: auto;
   }
   .mat-card-header{
     text-align: center;
   }
-
+  ul{
+    list-style: none;
+    padding: 20px 0;
+  }
   p, ul{
-    font-size: larger;
+    font-size: larger; text-align: center;
   }
 
   .mat-card-actions{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
   }
     hr{
       border: 3px solid #90BFE6
       ;
   border-radius: 5px;
     }
-    /* Responsive Styles */
- @media screen and (max-width: 1225px) {
 
-  }
-  
-  @media screen and (max-width: 920px) {
-    .content-container {
-      flex-direction: column; /* Stack items vertically */
-      align-items: center;
-    }
-    .image {
-      width: 70%; /* Adjust the width of the image container */
-      height: 300px; /* Set the desired height of the image container */
-      overflow: hidden; /* Hide any overflow from the image */
-      margin-right: 0px;
-    }
-
-    .mat-card-actions{
-      display: flex;
-      justify-content: space-around;
-    }
-    h1{
-      margin: auto;
-    }
-    ul{
-      list-style: none;
-      padding: 20px 0;
-    }
-
-    p, ul{
-      font-size: medium;
-      text-align: center;
-    }
-    h1{
-      font-size: 300%;
-
-    }
-
-  }
-  
-  @media screen and (max-width: 600px) {
-    p, ul{
-      font-size: small;
-      text-align: center;
-    }
-    h1{
-      font-size: 230%;
-
-    }
-
-  } 

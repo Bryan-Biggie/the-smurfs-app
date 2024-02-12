@@ -15,7 +15,8 @@ export class MainListService {
   public sizeOfList: number;
   isFetched: boolean = false;
   displayLoading: any = new BehaviorSubject<number>(0);
-  itemsChanged = new BehaviorSubject<Item[]>([]);
+  // itemsChanged = new BehaviorSubject<Item[]>([]);
+  itemsChanged: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   private items: Item[] = [];
 
   //  private items: Item[] = [
@@ -260,14 +261,18 @@ export class MainListService {
   }
 
   setItems() {
-    this.displayLoading.next(0);
-    this.dataService.fetchItems();
+    if(!this.dataService.isDataFetched){
+      this.displayLoading.next(0);
+      this.dataService.fetchItems();
+      this.isFetched = true;
+    }
+    
   }
   setItemsCheckStatus(status) {
     if (status === '200') {
       this.items = this.dataService.responseData;
-      this.itemsChanged.next(this.items.slice());
-      this.isFetched = true;
+      this.itemsChanged.next(200);
+      
       this.displayLoading.next(200);
       // return this.items.slice();
     }
@@ -281,7 +286,7 @@ export class MainListService {
     if (status === '200') {
       let newItem = this.dataService.responseData;
       this.items.push(newItem);
-      this.itemsChanged.next(this.items.slice());
+      this.itemsChanged.next(200);
       this.displayLoading.next(200);
       this.dialog.open(DialogComponent, {
         data: {
@@ -293,10 +298,14 @@ export class MainListService {
   }
 
   removeItem( itemDelete: Item): void {
+    console.log("🚀 ~ MainListService ~ removeItem ~ itemDelete:", itemDelete)
+    
     this.displayLoading.next(0);
     this.dataService.deleteItem( itemDelete);
   }
   removeItemCheckStatus(status) {
+    console.log("🚀 ~ MainListService ~ removeItemCheckStatus ~ status:", status)
+    
     if (status === '200') {
       let itemDelete: Item = this.dataService.responseData;
       const indexToRemove = this.items.findIndex(
@@ -305,7 +314,8 @@ export class MainListService {
 
       if (indexToRemove !== -1) {
         this.items.splice(indexToRemove, 1);
-        this.itemsChanged.next(this.items.slice());
+        this.itemsChanged.next(200);
+        // this.itemsChanged.next(this.items.slice());
         this.displayLoading.next(200);
         // Alternatively
         // this.items = this.items.filter(item => item.id !== id);
@@ -337,7 +347,7 @@ export class MainListService {
         foundItem.sex = itemInfo.sex;
         foundItem.height = itemInfo.height;
         foundItem.age = itemInfo.age;
-        this.itemsChanged.next(this.items.slice());
+        this.itemsChanged.next(200);
         this.displayLoading.next(200);
 
         this.dialog.open(DialogComponent, {

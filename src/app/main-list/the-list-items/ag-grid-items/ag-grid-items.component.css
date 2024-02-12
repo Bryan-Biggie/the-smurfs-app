@@ -1,0 +1,9 @@
+/* @import 'ag-grid-community/dist/styles/ag-grid.css';
+@import 'ag-grid-community/dist/styles/ag-theme-alpine.css'; */
+
+.ag-theme-alpine {
+    /* --ag-background-color: #5eafd4; */
+    --ag-column-hover-color: #7dcc5e;
+    --ag-odd-row-background-color: #5eabcc;
+    --ag-row-hover-color: #aad9f8;
+}

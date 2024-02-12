@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataStorageService } from './data-storage.service';
 import { MainListService } from './main-list.service';
+import { TabCalculationsService } from '../services/tab-calculations.service';
 
 @Component({
   selector: 'app-main-list',
@@ -10,7 +11,7 @@ import { MainListService } from './main-list.service';
 export class MainListComponent implements OnInit {
   isLoading;
 
-  constructor(private dataService: DataStorageService, private listService: MainListService) { }
+  constructor(private dataService: DataStorageService, private listService: MainListService, private tabService: TabCalculationsService) { }
 
   ngOnInit(): void {
     this.listService.displayLoading.subscribe((data) =>{
@@ -21,7 +22,17 @@ export class MainListComponent implements OnInit {
         this.isLoading = false;
       }
 
-    })
+    });
+
+    this.tabService.displayLoading.subscribe((data) =>{
+      if(data === 0){
+        this.isLoading = true;
+      }
+      else{
+        this.isLoading = false;
+      }
+
+    });
   }
 
 }

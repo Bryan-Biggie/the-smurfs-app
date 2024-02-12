@@ -20,6 +20,11 @@ export class NewListItemComponent implements OnInit {
      public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    if(!this.listService.isFetched){
+      this.listService.setItems();
+    }
+
+    
     this.listSize = this.listService.getListSize();
     
 

@@ -1,20 +1,13 @@
-
 *{
     box-sizing: border-box;
 }
 
-/* .dot{
-  background-color: #234B6B;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
 .form-container {
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+    flex-wrap: wrap;
   }
   
   h1{
@@ -30,7 +23,7 @@
   }
 form {
     max-width: 400%;
-    width: 60%;
+    width: 75%;
     margin: 0 auto;
     padding: 20px;
     background-color: #4695D6;
@@ -38,11 +31,6 @@ form {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  /* label {
-    display: block;
-    margin-bottom: 8px;
-  } */
-
   .mat-form-field{
     background-color: #1b71b8;
     width: 100%;
@@ -55,19 +43,8 @@ form {
 
   .desc-area{
     padding: 5px;
-    /* box-sizing: border-box;
-    border: none; */
+
   }
-  
-  /* input[type="text"],input[type="number"],
-  textarea, select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  } */
   
   button {
     background-color: #152D40;
@@ -87,26 +64,6 @@ form {
     background-color: #234B6B;
   }
 
-    /* Responsive Styles */
-  @media screen and (max-width: 1225px) {
 
-  }
+
   
-  @media screen and (max-width: 851px) {
-    .form-container {
-      flex-direction: column; /* Stack items vertically */
-      align-items: center;
-    }
-    form {
-      max-width: 400%;
-      width: 100%;
-    }
-    .image{
-      width: 30vw;
-    }
-
-  }
-  
-  @media screen and (max-width: 600px) {
-
-  }

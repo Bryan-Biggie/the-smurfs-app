@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MainListService } from './main-list.service';
 import { HttpClient } from '@angular/common/http';
 import { map, tap, catchError } from 'rxjs/operators';
 import { Item } from './item.model';
@@ -12,6 +11,8 @@ export class DataStorageService {
   responseMessage;
   responseResult;
   responseData;
+  isDataFetched: boolean = false;
+  
 
   // isLoading: any = new BehaviorSubject<number>(0);
   creatingCharacter: BehaviorSubject<string> = new BehaviorSubject<string>('0');
@@ -53,10 +54,12 @@ export class DataStorageService {
           this.responseMessage = itemsData['message'];
           this.responseResult = itemsData['result'];
           this.responseData = itemsData['data'];
+          // console.log( itemsData['data']);
 
           return itemsData['result'];
         }),
         tap((items) => {
+          this.isDataFetched = true;
           this.fetchingCharacters.next(items);
         })
       )

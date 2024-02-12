@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Item } from '../item.model';
 import { MainListService } from '../main-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list-item-detail',
   templateUrl: './list-item-detail.component.html',
   styleUrls: ['./list-item-detail.component.css'],
 })
-export class ListItemDetailComponent implements OnInit {
+export class ListItemDetailComponent implements OnInit, OnDestroy {
   item: Item;
   itemId;
-  items: Item[];
+  items: Item[] = [];
+  subscription: Subscription;
 
   constructor(
     private listService: MainListService,
@@ -21,21 +23,35 @@ export class ListItemDetailComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit(): void {
-    // this.itemId = +this.activatedRoute.snapshot.paramMap.get('id');
-    // this.item = this.listService.getItems().find(x => x.id === this.itemId);
+    if (!this.listService.isFetched) {
+      this.listService.setItems();
+    }
+    try {
 
-    this.listService.itemsChanged.subscribe((itemsChanged)=>{    
-      this.items = itemsChanged;
-    });
+    this.subscription = this.listService.itemsChanged.subscribe((code) => {
 
-    this.activatedRoute.paramMap.subscribe((data) => {   
-      this.itemId = +data.get('id');
-      this.item = this.items.find((x) => x.id === this.itemId);
+      if (code === 200) {
+        this.items = this.listService.getItems();
+
+        this.activatedRoute.paramMap.subscribe((data) => {
+          this.itemId = +data.get('id');
+          this.item = this.items.find((x) => x.id === this.itemId);
+        });
+      }
     });
+    } catch (error) {
+      console.error('Error in ngOnInit:', error);
+    }
+
   }
 
   onDelete(): void {
-    this.listService.removeItem( this.item);
+    this.listService.itemsChanged.next(0);
+    this.listService.removeItem(this.item);
     this.router.navigate(['/mainList']);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

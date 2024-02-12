@@ -1,8 +1,6 @@
 .container{
-    padding: 90px;
-    
+    padding: 90px 20px;   
 }
-
 /*=============== LOADER ===============*/
 .loader {
   position: fixed;
@@ -13,12 +11,8 @@
   z-index: 2;
   border-radius: 5px;
   animation: loading 300ms forwards;
-  /* animation-delay: 14s; */
   transform-origin: center;
-  /* Style d'arrière plan du loading 
-  source : https://youtu.be/3HRvb2tLqF4?si=dAvqkS3wlmoNzTr4 */
-  /* Style d'animation de cercle 
-  source : https://youtu.be/U3hCPkV9SnU?si=dl3_HEngwzSLMRHx */
+
 }
 .loader__background--glass {
   height: 100vh;
@@ -79,28 +73,6 @@
   0% {
     transform: scale(1);
   }
-  /* 100% {
-    transform: scale(0);
-    display: none;
-  } */
+
 }
 
-
-
-  /* Responsive Styles */
-   @media screen and (max-width: 1225px) {
-
-  }
-  
-  @media screen and (max-width: 850px) {
-
-  }
-  
-  @media screen and (max-width: 600px) {
-    .container{
-        padding-left: 20px;
-        padding-right: 20px;
-        
-    }
-
-  }

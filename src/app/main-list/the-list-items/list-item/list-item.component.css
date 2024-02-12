@@ -2,6 +2,11 @@
     background-color: #4695D6;
     width: 300px;
     margin-bottom: 20px;
+    
+  }
+
+  .example-card:nth-child(2) {
+    flex: 2 46%;
   }
 
 .name{

@@ -1,0 +1,33 @@
+<button 
+  mat-mini-fab
+  color="warn"
+  aria-label="button with a delete icon"
+  (click)="onClick($event)"
+  *ngIf="fieldName === 'Delete'"
+>
+  <mat-icon>delete</mat-icon>
+</button>
+
+<button
+  mat-mini-fab
+  color="primary"
+  aria-label="button with a view icon"
+  (click)="onClick($event)"
+  *ngIf="fieldName === 'Details'"
+>
+  <mat-icon>remove_red_eye</mat-icon>
+</button>
+
+<button 
+  mat-mini-fab
+  color="accent"
+  aria-label="button with a edit icon"
+  (click)="onClick($event)"
+  *ngIf="fieldName === 'Edit'"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+
+<div *ngIf="fieldName === 'imagePath'">
+  <img src="{{ imagePath }}" height="45" width="40" />
+</div>

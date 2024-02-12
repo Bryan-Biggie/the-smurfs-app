@@ -12,7 +12,7 @@
 
   #logo{
     padding-top: 10px;
-    width: 130px;
+    width: 120px;
   }
 
   .mat-toolbar{
@@ -33,37 +33,4 @@
   .mat-toolbar-row{
     display: flex;
     justify-content: space-between;
-  }
-
-  /* Responsive Styles */
-  /* @media screen and (max-width: 1225px) {
-
-  }
-  
-  @media screen and (max-width: 850px) {
-
-  }
-  
-  @media screen and (max-width: 600px) {
-
-  } */
-
-  @media screen and (max-width: 1225px) {
-
-  }
-  
-  @media screen and (max-width: 850px) {
-
-  }
-  
-  @media screen and (max-width: 600px) {
-    #logo{
-      width: 100px;
-    }
-  }
-
-  @media screen and (max-width: 450px) {
-    .mat-toolbar{
-      padding: 0 20px;
-    }
   }

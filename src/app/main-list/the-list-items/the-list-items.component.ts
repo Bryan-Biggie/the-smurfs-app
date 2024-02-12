@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MainListService } from '../main-list.service';
 import { Item } from '../item.model';
-import { DataStorageService } from '../data-storage.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,21 +11,19 @@ import { Subscription } from 'rxjs';
 export class TheListItemsComponent implements OnInit {
   items: Item[] = [];
   subscription: Subscription;
+  filterGender: string = '';
 
-  constructor(
-    private listService: MainListService,
-  ) {
-    
-  }
+  constructor(private listService: MainListService) {}
 
   ngOnInit(): void {
-    this.subscription = this.listService.itemsChanged.subscribe((items: Item[]) => {this.items = items;});
-    
-    this.items = this.listService.getItems();
-    if(!this.listService.isFetched){
+    if (!this.listService.isFetched) {
       this.listService.setItems();
     }
-    
+    this.subscription = this.listService.itemsChanged.subscribe((code) => {
+      if (code === 200) {
+        this.items = this.listService.getItems();
+      }
+    });
   }
   // onSaveData() {
   //   this.dataService.storeItems();

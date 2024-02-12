@@ -79,7 +79,7 @@ Selected Character Edit page
 Create / Add a new Character
 
 <p align="center">
-  <img src="./src/app/images/4 Details.png" alt="Main Page" width="100%">
+  <img src="./src/app/images/6 create.png" alt="Main Page" width="100%">
 </p>
 
 Page with Tabs

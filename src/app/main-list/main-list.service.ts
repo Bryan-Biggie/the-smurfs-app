@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Item } from './item.model';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { DataStorageService } from './data-storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
+import { takeWhile } from 'rxjs/operators';
+import { LoggingService } from '../services/logging.service';
 
 @Injectable()
-export class MainListService {
-  creatingCharacterSubscription: Subscription;
-  fetchingCharactersSubscription: Subscription;
-  updateCharacterSubscription: Subscription;
-  deleteCharacterSubscription: Subscription;
+export class MainListService implements OnDestroy {
+  public className = 'MainListService';
 
   public sizeOfList: number;
   isFetched: boolean = false;
@@ -18,6 +17,7 @@ export class MainListService {
   // itemsChanged = new BehaviorSubject<Item[]>([]);
   itemsChanged: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   private items: Item[] = [];
+  public alive: boolean = true;
 
   //  private items: Item[] = [
   //   new Item(
@@ -240,130 +240,167 @@ export class MainListService {
 
   constructor(
     private dataService: DataStorageService,
+    private loggingService: LoggingService,
     public dialog: MatDialog
   ) {
-    this.fetchingCharactersSubscription =
-      this.dataService.fetchingCharacters.subscribe((status) => {
-        this.setItemsCheckStatus(status);
-      });
-    this.creatingCharacterSubscription =
-      this.dataService.creatingCharacter.subscribe((status) => {
-        this.addItemCheckStatus(status);
-      });
-    this.updateCharacterSubscription =
-      this.dataService.updateCharacter.subscribe((status) => {
-        this.updateCheckStatus(status);
-      });
-    this.deleteCharacterSubscription =
-      this.dataService.deleteCharacter.subscribe((status) => {
-        this.removeItemCheckStatus(status);
-      });
+    let methodName = 'constructor';
+    try {
+      this.dataService.fetchingCharacters
+        .pipe(takeWhile(() => this.alive))
+        .subscribe((status) => {
+          this.setItemsCheckStatus(status);
+        });
+      this.dataService.creatingCharacter
+        .pipe(takeWhile(() => this.alive))
+        .subscribe((status) => {
+          this.addItemCheckStatus(status);
+        });
+      this.dataService.updateCharacter
+        .pipe(takeWhile(() => this.alive))
+        .subscribe((status) => {
+          this.updateCheckStatus(status);
+        });
+      this.dataService.deleteCharacter
+        .pipe(takeWhile(() => this.alive))
+        .subscribe((status) => {
+          this.removeItemCheckStatus(status);
+        });
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 
   setItems() {
-    if(!this.dataService.isDataFetched){
-      this.displayLoading.next(0);
-      this.dataService.fetchItems();
-      this.isFetched = true;
+    let methodName = 'setItems';
+    try {
+      if (!this.dataService.isDataFetched) {
+        this.displayLoading.next(0);
+        this.dataService.fetchItems();
+        this.isFetched = true;
+      }
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
     }
-    
   }
   setItemsCheckStatus(status) {
-    if (status === '200') {
-      this.items = this.dataService.responseData;
-      this.itemsChanged.next(200);
-      
-      this.displayLoading.next(200);
-      // return this.items.slice();
+    let methodName = 'setItemsCheckStatus';
+    try {
+      if (status === '200') {
+        this.items = this.dataService.responseData;
+        this.itemsChanged.next(200);
+        this.displayLoading.next(200);
+      }
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
   addItem(newItem: Item) {
-    this.displayLoading.next(0);
-    this.dataService.createAndStoreItem(newItem); // this adds the item to the database
+    let methodName = 'addItem';
+    try {
+      this.displayLoading.next(0);
+      this.dataService.createAndStoreItem(newItem); // this adds the item to the database
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
   addItemCheckStatus(status) {
-    if (status === '200') {
-      let newItem = this.dataService.responseData;
-      this.items.push(newItem);
-      this.itemsChanged.next(200);
-      this.displayLoading.next(200);
-      this.dialog.open(DialogComponent, {
-        data: {
-          heading: 'NEW SMURF!',
-          body: 'The smurf ' + newItem.name + ' has been added to the list.',
-        },
-      });
+    let methodName = 'addItemCheckStatus';
+    try {
+      if (status === '200') {
+        let newItem = this.dataService.responseData;
+        this.items.push(newItem);
+        this.itemsChanged.next(200);
+        this.displayLoading.next(200);
+        this.dialog.open(DialogComponent, {
+          data: {
+            heading: 'NEW SMURF!',
+            body: 'The smurf ' + newItem.name + ' has been added to the list.',
+          },
+        });
+      }
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
-  removeItem( itemDelete: Item): void {
-    console.log("🚀 ~ MainListService ~ removeItem ~ itemDelete:", itemDelete)
-    
-    this.displayLoading.next(0);
-    this.dataService.deleteItem( itemDelete);
+  removeItem(itemDelete: Item): void {
+    let methodName = 'removeItem';
+    try {
+      this.displayLoading.next(0);
+      this.dataService.deleteItem(itemDelete);
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
   removeItemCheckStatus(status) {
-    console.log("🚀 ~ MainListService ~ removeItemCheckStatus ~ status:", status)
-    
-    if (status === '200') {
-      let itemDelete: Item = this.dataService.responseData;
-      const indexToRemove = this.items.findIndex(
-        (item) => item.id === itemDelete.id
-      );
+    let methodName = 'removeItemCheckStatus';
+    try {
+      if (status === '200') {
+        let itemDelete: Item = this.dataService.responseData;
+        const indexToRemove = this.items.findIndex(
+          (item) => item.id === itemDelete.id
+        );
 
-      if (indexToRemove !== -1) {
-        this.items.splice(indexToRemove, 1);
-        this.itemsChanged.next(200);
-        // this.itemsChanged.next(this.items.slice());
-        this.displayLoading.next(200);
-        // Alternatively
-        // this.items = this.items.filter(item => item.id !== id);
-      
-      this.dialog.open(DialogComponent, {
-        data: {
-          heading: 'DELETED!',
-          body: 'Smurf ' + itemDelete.name + ' has been REMOVED from the list!',
-        },
-      });
-    }
+        if (indexToRemove !== -1) {
+          this.items.splice(indexToRemove, 1);
+          this.itemsChanged.next(200);
+          // this.itemsChanged.next(this.items.slice());
+          this.displayLoading.next(200);
+
+          this.dialog.open(DialogComponent, {
+            data: {
+              heading: 'DELETED!',
+              body:
+                'Smurf ' + itemDelete.name + ' has been REMOVED from the list!',
+            },
+          });
+        }
+      }
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
   updateItem(itemInfo: Item): void {
-    this.displayLoading.next(0);
-    // this.dataService.updateCharacter.next('0');
-    this.dataService.updateItem(itemInfo); // this adds the item to the database
+    let methodName = 'updateItem';
+    try {
+      this.displayLoading.next(0);
+      this.dataService.updateItem(itemInfo); // this adds the item to the database
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
   updateCheckStatus(status: string) {
-    if (status === '200') {
-      let itemInfo = this.dataService.responseData;
-      const foundItem = this.items.find((item) => item.id === itemInfo.id);
+    let methodName = 'updateCheckStatus';
+    try {
+      if (status === '200') {
+        let itemInfo = this.dataService.responseData;
+        let index = this.items.findIndex((item) => item.id === itemInfo.id);
 
-      if (foundItem) {
-        foundItem.name = itemInfo.name;
-        foundItem.description = itemInfo.description;
-        foundItem.imagePath = itemInfo.imagePath;
-        foundItem.sex = itemInfo.sex;
-        foundItem.height = itemInfo.height;
-        foundItem.age = itemInfo.age;
-        this.itemsChanged.next(200);
-        this.displayLoading.next(200);
+        if (index !== -1) {
+          this.items[index] = itemInfo;
+          this.itemsChanged.next(200);
+          this.displayLoading.next(200);
 
-        this.dialog.open(DialogComponent, {
-          data: {
-            heading: 'SAVED!',
-            body: 'The changes made to ' + itemInfo.name + ' have been saved!',
-          },
-        });
-      } else {
-        this.dialog.open(DialogComponent, {
-          data: {
-            heading: 'FAILED!',
-            body: `Item with ID ${itemInfo.id} not found`,
-          },
-        });
+          this.dialog.open(DialogComponent, {
+            data: {
+              heading: 'SAVED!',
+              body:
+                'The changes made to ' + itemInfo.name + ' have been saved!',
+            },
+          });
+        } else {
+          this.dialog.open(DialogComponent, {
+            data: {
+              heading: 'FAILED!',
+              body: `Item with ID ${itemInfo.id} not found`,
+            },
+          });
+        }
       }
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
@@ -377,9 +414,16 @@ export class MainListService {
     return this.items[id];
   }
   ngOnDestroy() {
-    this.fetchingCharactersSubscription.unsubscribe();
-    this.creatingCharacterSubscription.unsubscribe();
-    this.deleteCharacterSubscription.unsubscribe();
-    this.updateCharacterSubscription.unsubscribe();
+    let methodName = 'ngOnDestroy';
+    try {
+      this.alive = false;
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
+  }
+
+  resetValues() {
+    this.itemsChanged.next(0);
+    this.items = [];
   }
 }

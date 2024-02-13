@@ -37,6 +37,7 @@ import { TabCalculationsService } from './services/tab-calculations.service';
 import { Tab3OldestCharactersComponent } from './main-list/tabs/tab3-oldest-characters/tab3-oldest-characters.component';
 import { Tab4FirstLetterCharactersComponent } from './main-list/tabs/tab4-first-letter-characters/tab4-first-letter-characters.component';
 import { Tab2GenderPieChartComponent } from './main-list/tabs/tab2-gender-pie-chart/tab2-gender-pie-chart.component';
+import { LoggingService } from './services/logging.service';
 
 // Pass the fusioncharts library and chart modules
 FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
@@ -77,7 +78,7 @@ FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
     AgGridModule,
     FusionChartsModule,
   ],
-  providers: [MainListService, TabCalculationsService,  ],
+  providers: [MainListService, TabCalculationsService, LoggingService ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })

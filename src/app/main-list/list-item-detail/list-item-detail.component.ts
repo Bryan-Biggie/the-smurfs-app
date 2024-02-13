@@ -4,6 +4,8 @@ import { MainListService } from '../main-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { LoggingService } from 'src/app/services/logging.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-item-detail',
@@ -11,47 +13,63 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./list-item-detail.component.css'],
 })
 export class ListItemDetailComponent implements OnInit, OnDestroy {
+  public className = 'ListItemDetailComponent';
+  public alive: boolean = true;
   item: Item;
   itemId;
   items: Item[] = [];
-  subscription: Subscription;
 
   constructor(
     private listService: MainListService,
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
+    private loggingService: LoggingService,
     private router: Router
   ) {}
   ngOnInit(): void {
-    if (!this.listService.isFetched) {
-      this.listService.setItems();
-    }
+    let methodName = 'ngOnInit';
+
     try {
-
-    this.subscription = this.listService.itemsChanged.subscribe((code) => {
-
-      if (code === 200) {
-        this.items = this.listService.getItems();
-
-        this.activatedRoute.paramMap.subscribe((data) => {
-          this.itemId = +data.get('id');
-          this.item = this.items.find((x) => x.id === this.itemId);
-        });
+      if (!this.listService.isFetched) {
+        this.listService.setItems();
       }
-    });
-    } catch (error) {
-      console.error('Error in ngOnInit:', error);
-    }
+      this.listService.itemsChanged
+        .pipe(takeWhile(() => this.alive))
+        .subscribe((code) => {
+          if (code === 200) {
+            this.items = this.listService.getItems();
 
+            this.activatedRoute.paramMap
+              .pipe(takeWhile(() => this.alive))
+              .subscribe((data) => {
+                this.itemId = +data.get('id');
+                this.item = this.items.find((x) => x.id === this.itemId);
+              });
+          }
+        });
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 
   onDelete(): void {
-    this.listService.itemsChanged.next(0);
-    this.listService.removeItem(this.item);
-    this.router.navigate(['/mainList']);
+    let methodName = 'ngOnInit';
+    try {
+      this.listService.itemsChanged.next(0);
+      this.listService.removeItem(this.item);
+      this.router.navigate(['/mainList']);
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    let methodName = 'ngOnDestroy';
+    try {
+      this.alive = false;
+      // this.listService.resetValues();
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 }

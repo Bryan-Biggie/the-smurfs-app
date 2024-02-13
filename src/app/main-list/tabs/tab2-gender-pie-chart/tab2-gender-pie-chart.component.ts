@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MainListService } from '../../main-list.service';
 import { Subscription } from 'rxjs';
 import { TabCalculationsService } from 'src/app/services/tab-calculations.service';
+import { LoggingService } from 'src/app/services/logging.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab2-gender-pie-chart',
@@ -9,37 +11,41 @@ import { TabCalculationsService } from 'src/app/services/tab-calculations.servic
   styleUrls: ['./tab2-gender-pie-chart.component.css'],
 })
 export class Tab2GenderPieChartComponent implements OnInit {
+  public className = 'Tab2GenderPieChartComponent';
+  public alive: boolean = true;
+
   dataSource: Object = {};
   characters;
   maleCharacters: number = 0;
   femaleCharacters: number = 0;
   otherCharacters: number = 0;
   genders: object;
-  subscription: Subscription;
   constructor(
-    private tabService: TabCalculationsService
+    private tabService: TabCalculationsService,
+    private loggingService: LoggingService
   ) {}
 
   ngOnInit(): void {
+    let methodName = 'ngOnInit';
     try {
-      this.subscription = this.tabService.characterChanged.subscribe((code) => {
-        if (code === 200) {
-          this.genders = this.tabService.getAllGenders();
-          this.maleCharacters = this.genders['male'];
-          this.femaleCharacters = this.genders['female'];
-          this.otherCharacters = this.genders['other'];
-          this.pieChart();
-        }
-      });
+      this.tabService.characterChanged
+        .pipe(takeWhile(() => this.alive))
+        .subscribe((code) => {
+          if (code === 200) {
+            this.genders = this.tabService.getAllGenders();
+            this.maleCharacters = this.genders['male'];
+            this.femaleCharacters = this.genders['female'];
+            this.otherCharacters = this.genders['other'];
+            this.pieChart();
+          }
+        });
     } catch (error) {
-      console.log(
-        '🚀 ~ Tab2GenderPieChartComponent ~ ngOnInit ~ error:',
-        error
-      );
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
   pieChart() {
+    let methodName = 'pieChart';
     try {
       const chartData = [
         {
@@ -69,14 +75,17 @@ export class Tab2GenderPieChartComponent implements OnInit {
       };
       this.dataSource = dataSource;
     } catch (error) {
-      console.log(
-        '🚀 ~ Tab2GenderPieChartComponent ~ pieChart ~ error:',
-        error
-      );
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    let methodName = 'ngOnDestroy';
+    try {
+      this.alive = false;
+      // this.listService.resetValues();
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 }

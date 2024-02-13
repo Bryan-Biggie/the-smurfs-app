@@ -24,13 +24,6 @@ Dive into the enchanting universe of Smurfs with our interactive website. Whethe
 
 ## Not Implemented (Maybe in a Future Version)
 
-- 🚧 Security (Authorization and Authentication)
-- 🚧 Caching
-- 🚧 Data Compression
-- 🚧 Throttling and Rate-limiting
-- 🚧 Profiling the app
-- 🚧 Test Containers
-- 🚧 Docker Build
 - 🚧 Spring Boot: Backend framework for building robust and scalable applications.
 - 🚧 Java model class with validation
 - 🚧 JPA repository
@@ -43,6 +36,14 @@ Dive into the enchanting universe of Smurfs with our interactive website. Whethe
 - 🚧 Unit tests for all layers (repository, service, controller)
 - 🚧 Test coverage for tests
 - 🚧 Spring Docs - Swagger (https://springdoc.org/v2/)
+- 🚧 Security (Authorization and Authentication)
+- 🚧 Caching
+- 🚧 Data Compression
+- 🚧 Throttling and Rate-limiting
+- 🚧 Profiling the app
+- 🚧 Test Containers
+- 🚧 Docker Build
+
 
 ## Screenshots
 

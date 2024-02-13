@@ -5,6 +5,8 @@ import { TabCalculationsService } from 'src/app/services/tab-calculations.servic
 import { Item } from '../../item.model';
 import { MainListService } from '../../main-list.service';
 import { RendererComponent } from '../../the-list-items/ag-grid-items/renderer/renderer.component';
+import { LoggingService } from 'src/app/services/logging.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab3-oldest-characters',
@@ -12,7 +14,8 @@ import { RendererComponent } from '../../the-list-items/ag-grid-items/renderer/r
   styleUrls: ['./tab3-oldest-characters.component.css'],
 })
 export class Tab3OldestCharactersComponent implements OnInit {
-  subscription: Subscription;
+  public className = 'Tab3OldestCharactersComponent';
+  public alive: boolean = true;
   rowData: Item[] = [];
 
   colDefs: ColDef[] = [
@@ -35,21 +38,22 @@ export class Tab3OldestCharactersComponent implements OnInit {
   };
 
   constructor(
-    private tabService: TabCalculationsService
+    private tabService: TabCalculationsService,
+    private loggingService: LoggingService
   ) {}
 
   ngOnInit(): void {
+    let methodName = 'ngOnInit';
     try {
-      this.subscription = this.tabService.characterChanged.subscribe((code) => {
-        if (code === 200) {
-          this.rowData = this.tabService.getOldest();
-        }
-      });
+      this.tabService.characterChanged
+        .pipe(takeWhile(() => this.alive))
+        .subscribe((code) => {
+          if (code === 200) {
+            this.rowData = this.tabService.getOldest();
+          }
+        });
     } catch (error) {
-      console.log(
-        '🚀 ~ Tab3OldestCharactersComponent ~ ngOnInit ~ error:',
-        error
-      );
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
@@ -58,6 +62,12 @@ export class Tab3OldestCharactersComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    let methodName = 'ngOnDestroy';
+    try {
+      this.alive = false;
+      // this.listService.resetValues();
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 }

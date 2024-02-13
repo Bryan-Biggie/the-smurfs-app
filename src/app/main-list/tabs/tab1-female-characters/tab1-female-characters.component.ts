@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 import { Item } from '../../item.model';
 import { RendererComponent } from '../../the-list-items/ag-grid-items/renderer/renderer.component';
-import { MainListService } from '../../main-list.service';
 import { TabCalculationsService } from 'src/app/services/tab-calculations.service';
-import { Subscription } from 'rxjs';
+import { LoggingService } from 'src/app/services/logging.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab1-female-characters',
@@ -13,7 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./tab1-female-characters.component.css'],
 })
 export class Tab1FemaleCharactersComponent implements OnInit {
-  subscription: Subscription;
+  public className = 'Tab1FemaleCharactersComponent';
+  public alive: boolean = true;
   rowData: Item[] = [];
 
   colDefs: ColDef[] = [
@@ -35,20 +36,19 @@ export class Tab1FemaleCharactersComponent implements OnInit {
     resizable: true,
   };
 
-  constructor(private tabService: TabCalculationsService) {}
+  constructor(private tabService: TabCalculationsService, private loggingService: LoggingService
+    ) {}
 
   ngOnInit(): void {
+    let methodName = 'ngOnInit';
     try {
-      this.subscription = this.tabService.characterChanged.subscribe((code) => {
+      this.tabService.characterChanged.pipe(takeWhile(() => this.alive)).subscribe((code) => {
         if (code === 200) {
           this.rowData = this.tabService.getGender();
         }
       });
     } catch (error) {
-      console.log(
-        '🚀 ~ Tab1FemaleCharactersComponent ~ ngOnInit ~ error:',
-        error
-      );
+      this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
@@ -57,6 +57,12 @@ export class Tab1FemaleCharactersComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    let methodName = 'ngOnDestroy';
+    try {
+      this.alive = false;
+      // this.listService.resetValues();
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 }

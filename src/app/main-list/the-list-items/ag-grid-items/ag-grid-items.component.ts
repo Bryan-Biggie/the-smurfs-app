@@ -7,6 +7,7 @@ import { MainListService } from '../../main-list.service';
 import { Item } from '../../item.model';
 import { Router } from '@angular/router';
 import { RendererComponent } from './renderer/renderer.component';
+import { LoggingService } from 'src/app/services/logging.service';
 
 @Component({
   selector: 'app-ag-grid-items',
@@ -14,6 +15,7 @@ import { RendererComponent } from './renderer/renderer.component';
   styleUrls: ['./ag-grid-items.component.css'],
 })
 export class AgGridItemsComponent implements OnInit {
+  public className = 'AgGridItemsComponent';
   public rowData$!: Observable<any[]>;
   // items: Item[] = [];
   subscription: Subscription;
@@ -29,10 +31,10 @@ export class AgGridItemsComponent implements OnInit {
     { field: 'description' },
 
     { field: 'sex' },
-    
-    {field: 'Details', cellRendererFramework: RendererComponent},
-    {field: 'Edit', cellRendererFramework: RendererComponent},
-    {field: 'Delete', cellRendererFramework: RendererComponent},
+
+    { field: 'Details', cellRendererFramework: RendererComponent },
+    { field: 'Edit', cellRendererFramework: RendererComponent },
+    { field: 'Delete', cellRendererFramework: RendererComponent },
   ];
 
   public defaultColDef: ColDef = {
@@ -44,19 +46,25 @@ export class AgGridItemsComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private listService: MainListService,
-    private router: Router
+    private router: Router,
+    private loggingService: LoggingService
   ) {}
 
   ngOnInit() {
-    if (!this.listService.isFetched) {
-      this.listService.setItems();
-    }
-    this.subscription = this.listService.itemsChanged.subscribe((code) => {
-      if (code === 200) {
-        this.rowData = this.listService.getItems();
-        this.rowData.sort((a, b) => b.height - a.height);
+    let methodName = 'ngOnInit';
+    try {
+      if (!this.listService.isFetched) {
+        this.listService.setItems();
       }
-    });
+      this.subscription = this.listService.itemsChanged.subscribe((code) => {
+        if (code === 200) {
+          this.rowData = this.listService.getItems();
+          this.rowData.sort((a, b) => b.height - a.height);
+        }
+      });
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 
   getRowHeight(params): number {
@@ -64,12 +72,4 @@ export class AgGridItemsComponent implements OnInit {
     // For example, return a fixed height of 50 for demonstration purposes
     return 50;
   }
-
-
-  
-
-  // onCellClicked(event: CellClickedEvent) {
-  //   console.log(event.data['id']);
-  //   this.router.navigate(['/mainList/itemDetails', event.data['id']]);
-  // }
 }

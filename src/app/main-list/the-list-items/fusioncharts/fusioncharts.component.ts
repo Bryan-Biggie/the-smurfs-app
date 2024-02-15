@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MainListService } from '../../main-list.service';
-import { Subscription } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+import { LoggingService } from 'src/app/services/logging.service';
 
 @Component({
   selector: 'app-fusioncharts',
@@ -8,23 +9,26 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./fusioncharts.component.css'],
 })
 export class FusionchartsComponent implements OnInit {
+  public className = 'FusionchartsComponent';
+  public alive: boolean = true;
   dataSource: Object;
   characters;
   maleCharacters: number = 0;
   femaleCharacters: number = 0;
   otherCharacters: number = 0;
-  subscription: Subscription;
-  constructor(private listService: MainListService) {}
+  constructor(private listService: MainListService, private loggingService: LoggingService) {}
 
   ngOnInit(): void {
-    if (!this.listService.isFetched) {
+    let methodName = 'ngOnInit';
+    try {
+          if (!this.listService.isFetched) {
       this.listService.setItems();
     }
-    this.subscription = this.listService.itemsChanged.subscribe((code) => {
+     this.listService.itemsChanged.pipe(takeWhile(() => this.alive)).subscribe((code) => {
       if (code === 200) {
         this.characters = this.listService.getItems();
 
-        for (const character of this.characters) {
+        for (const character of this.characters) { // this makes all the calculations regarding gender
           // Check if the character is male
           if (character.sex.toLowerCase() === 'male') {
             // Add the male character to the maleCharacters array
@@ -56,15 +60,7 @@ export class FusionchartsComponent implements OnInit {
         const dataSource = {
           chart: {
             caption: 'Different genders of the Smurfs', //Set the chart caption
-            // subCaption: "In MMbbl = One Million barrels", //Set the chart subcaption
-            //xAxisName: "Gender/Sex", //Set the x-axis name
-            //yAxisName: "Number of Smurfs", //Set the y-axis name
-            // numberSuffix: "K",
             theme: 'fusion', //Set the theme for your chart
-            // xAxisMaxValue: 20, // Set your maximum X-axis value
-            // xAxisMinValue: 0,  // Set your minimum X-axis value
-            // setadaptiveymin: "0"
-
             use3DLighting: '0',
             showPercentValues: '1',
             decimals: '1',
@@ -76,9 +72,19 @@ export class FusionchartsComponent implements OnInit {
         this.dataSource = dataSource;
       }
     });
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
+
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    let methodName = 'ngOnDestroy';
+    try {
+      this.alive = false;
+      // this.listService.resetValues();
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 }

@@ -22,7 +22,7 @@ export class TabsComponent implements OnInit {
   ngOnInit(): void {
     let methodName = 'ngOnInit';
     try {    
-      this.tabService.setItems();
+      this.tabService.setItems();//this tells the business layer to fetch data from the DAL
     } catch (error) {
       this.loggingService.logEntry(this.className, methodName, error);
     }

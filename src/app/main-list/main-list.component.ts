@@ -14,7 +14,7 @@ export class MainListComponent implements OnInit {
   constructor(private dataService: DataStorageService, private listService: MainListService, private tabService: TabCalculationsService) { }
 
   ngOnInit(): void {
-    this.listService.displayLoading.subscribe((data) =>{
+    this.listService.displayLoading.subscribe((data) =>{// this listens to the business layer when its time to put the loading screen
       if(data === 0){
         this.isLoading = true;
       }
@@ -24,7 +24,7 @@ export class MainListComponent implements OnInit {
 
     });
 
-    this.tabService.displayLoading.subscribe((data) =>{
+    this.tabService.displayLoading.subscribe((data) =>{// this listens to the business layer when its time to put the loading screen
       if(data === 0){
         this.isLoading = true;
       }

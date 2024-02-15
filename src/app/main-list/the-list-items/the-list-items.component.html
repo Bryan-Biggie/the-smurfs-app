@@ -1,14 +1,5 @@
 <div class="heading">
   <h1 class="title">SMURF CHARACTERS</h1>
-
-  <!-- <p>
-    <mat-form-field appearance="fill">
-          <mat-label>Filter by gender:</mat-label>
-          <input matInput id="name" name="name" [(ngModel)] = "filterGender"  >
-          <mat-hint align="end">Male/Female/Other</mat-hint>
-      </mat-form-field>
-  </p> -->
-
   <div class="sub-heading">
     <button
       mat-raised-button color="primary" routerLink="/mainList/addNewSmurf">
@@ -16,31 +7,8 @@
       CREATE NEW SMURF
     </button>
   </div>
-  <!-- <mat-form-field>
-    <mat-label>Manage Data</mat-label>
-    <mat-select>
-      <mat-option value="save" (click)="onSaveData()">Save Data</mat-option>
-      <mat-option value="fetch" (click)="onFetchData()">Fetch Data</mat-option>
-    </mat-select>
-  </mat-form-field> -->
 </div>
 <hr />
-
-<!-- <app-ag-grid-items></app-ag-grid-items> -->
-<!-- <app-fusioncharts></app-fusioncharts> -->
-
-<!-- <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" backgroundColor="accent">
-  <mat-tab label="First">
-    <app-ag-grid-items></app-ag-grid-items>
-  </mat-tab>
-  <mat-tab label="Second">
-    <app-fusioncharts></app-fusioncharts>
-  </mat-tab>
-  <mat-tab label="Third">
-
-  </mat-tab>
-</mat-tab-group> -->
-
 <div class="container">
   <app-list-item *ngFor="let itemEl of items | 
   filterCharacter: filterGender" [item]="itemEl"></app-list-item>

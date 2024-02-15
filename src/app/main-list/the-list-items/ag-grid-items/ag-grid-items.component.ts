@@ -8,6 +8,7 @@ import { Item } from '../../item.model';
 import { Router } from '@angular/router';
 import { RendererComponent } from './renderer/renderer.component';
 import { LoggingService } from 'src/app/services/logging.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ag-grid-items',
@@ -15,10 +16,9 @@ import { LoggingService } from 'src/app/services/logging.service';
   styleUrls: ['./ag-grid-items.component.css'],
 })
 export class AgGridItemsComponent implements OnInit {
+  public alive: boolean = true;
   public className = 'AgGridItemsComponent';
   public rowData$!: Observable<any[]>;
-  // items: Item[] = [];
-  subscription: Subscription;
 
   rowData: Item[] = [];
 
@@ -56,10 +56,10 @@ export class AgGridItemsComponent implements OnInit {
       if (!this.listService.isFetched) {
         this.listService.setItems();
       }
-      this.subscription = this.listService.itemsChanged.subscribe((code) => {
+      this.listService.itemsChanged.pipe(takeWhile(() => this.alive)).subscribe((code) => {// this listens to the business layer if there is nay changes to the array.
         if (code === 200) {
           this.rowData = this.listService.getItems();
-          this.rowData.sort((a, b) => b.height - a.height);
+          //this.rowData.sort((a, b) => b.height - a.height);
         }
       });
     } catch (error) {
@@ -71,5 +71,15 @@ export class AgGridItemsComponent implements OnInit {
     // Your logic to calculate row height based on row data
     // For example, return a fixed height of 50 for demonstration purposes
     return 50;
+  }
+
+  ngOnDestroy() {
+    let methodName = 'ngOnDestroy';
+    try {
+      this.alive = false;
+      // this.listService.resetValues();
+    } catch (error) {
+      this.loggingService.logEntry(this.className, methodName, error);
+    }
   }
 }

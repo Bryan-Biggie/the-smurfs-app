@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MainListService } from '../main-list.service';
 import { Item } from '../item.model';
-import { Subscription } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 import { LoggingService } from 'src/app/services/logging.service';
 
@@ -13,7 +12,6 @@ import { LoggingService } from 'src/app/services/logging.service';
 export class TheListItemsComponent implements OnInit, OnDestroy {
   public className = 'TheListItemsComponent';
   items: Item[] = [];
-  subscription: Subscription;
   filterGender: string = '';
   public alive: boolean = true;
 
@@ -25,13 +23,13 @@ export class TheListItemsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let methodName = 'ngOnInit';
     try {
-      if (!this.listService.isFetched) {
-        this.listService.setItems();
+      if (!this.listService.isFetched) {//this checks if the business layer has fetched the data from the database(DAL)
+        this.listService.setItems();// if not then it tells the Bussiness layer to go fetch data from the DAL
       }
       this.listService.itemsChanged
         .pipe(takeWhile(() => this.alive))
         .subscribe((code) => {
-          if (code === 200) {
+          if (code === 200) {// when the code is 200 it goes to fetch the array list from the business layer
             this.items = this.listService.getItems();
           }
         });
@@ -47,7 +45,6 @@ export class TheListItemsComponent implements OnInit, OnDestroy {
       // this.listService.resetValues();
     } catch (error) {
       this.loggingService.logEntry(this.className, methodName, error);
-      // console.log("🚀 ~ TheListItemsComponent ~ ngOnDestroy ~ error:", error);
     }
   }
 }

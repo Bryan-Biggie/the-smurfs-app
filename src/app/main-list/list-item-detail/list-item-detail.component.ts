@@ -28,7 +28,6 @@ export class ListItemDetailComponent implements OnInit, OnDestroy {
   ) {}
   ngOnInit(): void {
     let methodName = 'ngOnInit';
-
     try {
       if (!this.listService.isFetched) {
         this.listService.setItems();
@@ -52,7 +51,7 @@ export class ListItemDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDelete(): void {
+  onDelete(): void {//when clicked this method tells the business layer to delete a character in the database
     let methodName = 'ngOnInit';
     try {
       this.listService.itemsChanged.next(0);

@@ -30,7 +30,7 @@ export class Tab2GenderPieChartComponent implements OnInit {
     try {
       this.tabService.characterChanged
         .pipe(takeWhile(() => this.alive))
-        .subscribe((code) => {
+        .subscribe((code) => {//this fetches data from the business layer and listens if there is any changes to the data.
           if (code === 200) {
             this.genders = this.tabService.getAllGenders();
             this.maleCharacters = this.genders['male'];
@@ -61,7 +61,7 @@ export class Tab2GenderPieChartComponent implements OnInit {
           value: this.otherCharacters,
         },
       ];
-      const dataSource = {
+      const dataSource = {//this is to plot the pie chart
         chart: {
           caption: 'Different genders of the Smurfs', //Set the chart caption
           theme: 'fusion', //Set the theme for your chart

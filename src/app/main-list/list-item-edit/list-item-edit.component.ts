@@ -4,6 +4,7 @@ import { MainListService } from '../main-list.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LoggingService } from 'src/app/services/logging.service';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-item-edit',
@@ -25,15 +26,15 @@ export class ListItemEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     let methodName = 'ngOnInit';
     try {
-      if (!this.listService.isFetched) {
-        this.listService.setItems();
+      if (!this.listService.isFetched) {//this checks if the business layer has fetched the data from the database(DAL)
+        this.listService.setItems();// if not then it tells the Bussiness layer to go fetch data from the DAL
       }
 
-      this.listService.itemsChanged.subscribe((code) => {
-        if (code === 200) {
+      this.listService.itemsChanged.pipe(takeWhile(() => this.alive)).subscribe((code) => {
+        if (code === 200) {// when the code is 200 it goes to fetch the array list from the business layer
           this.items = this.listService.getItems();
 
-          this.activatedRoute.paramMap.subscribe((data) => {
+          this.activatedRoute.paramMap.pipe(takeWhile(() => this.alive)).subscribe((data) => {
             this.item = JSON.parse(
               JSON.stringify(this.items.find((x) => x.id === +data.get('id')))
             );
@@ -45,10 +46,9 @@ export class ListItemEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  onUpdateItem() {
+  onUpdateItem() {// this method tells the business layer to add a new updates of a character to the database
     let methodName = 'onUpdateItem';
     try {
-      // this.listService.itemsChanged.next(0);
       this.listService.updateItem(this.item);
     } catch (error) {
       this.loggingService.logEntry(this.className, methodName, error);

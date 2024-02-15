@@ -247,55 +247,75 @@ export class MainListService implements OnDestroy {
     try {
       this.dataService.fetchingCharacters
         .pipe(takeWhile(() => this.alive))
-        .subscribe((status) => {
-          this.setItemsCheckStatus(status);
+        .subscribe((status) => {// listens to the DAL if there is any change to the database/ when data has been fetched from the API
+          if (status === '200') {
+          this.setItemsCheckStatus(status);//calls this method to go and fetch the data
+          }
+          else if(status !== '0'){
+            this.errorMessage(status);
+          }
         });
       this.dataService.creatingCharacter
         .pipe(takeWhile(() => this.alive))
-        .subscribe((status) => {
-          this.addItemCheckStatus(status);
+        .subscribe((status) => {// listens to the DAL when a new character is added to the database
+          if (status === '200') {
+          this.addItemCheckStatus(status);//calls this method to add the new character to the array copy in the business layer
+        }
+        else if(status !== '0'){
+          this.errorMessage(status);
+        }
         });
       this.dataService.updateCharacter
         .pipe(takeWhile(() => this.alive))
-        .subscribe((status) => {
-          this.updateCheckStatus(status);
+        .subscribe((status) => {// listens to the DAL when a character is updated in the database
+          if (status === '200') {
+          this.updateCheckStatus(status);//calls this method to update the character in the array copy in the business layer
+        }
+        else if(status !== '0'){
+          this.errorMessage(status);
+        }
         });
       this.dataService.deleteCharacter
         .pipe(takeWhile(() => this.alive))
-        .subscribe((status) => {
-          this.removeItemCheckStatus(status);
+        .subscribe((status) => {// listens to the DAL when a character is deleted in the database
+          if (status === '200') {
+          this.removeItemCheckStatus(status);//calls this method to delete the character in the array copy in the business layer
+        }
+        else if(status !== '0'){
+          this.errorMessage(status);
+        }
         });
     } catch (error) {
       this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
-  setItems() {
+  setItems() {// this method is called by the components to tell the business layer to go fetch the data from the DAL
     let methodName = 'setItems';
     try {
-      if (!this.dataService.isDataFetched) {
-        this.displayLoading.next(0);
-        this.dataService.fetchItems();
+      if (!this.dataService.isDataFetched) {// this checks if the data is fetched, if its fetched it does not call the DAL it just sends the array it has to the components.
+        this.displayLoading.next(0);//this starts the loading screen
+        this.dataService.fetchItems();//this calls the DAL to fetch the data from the api
         this.isFetched = true;
       }
     } catch (error) {
       this.loggingService.logEntry(this.className, methodName, error);
     }
   }
-  setItemsCheckStatus(status) {
+  setItemsCheckStatus(status) {// this method listens to the code from the DAL
     let methodName = 'setItemsCheckStatus';
     try {
       if (status === '200') {
         this.items = this.dataService.responseData;
-        this.itemsChanged.next(200);
-        this.displayLoading.next(200);
+        this.itemsChanged.next(200);//this tells the components that the data has been fetched
+        this.displayLoading.next(200);// stops the loading screen
       }
     } catch (error) {
       this.loggingService.logEntry(this.className, methodName, error);
     }
   }
 
-  addItem(newItem: Item) {
+  addItem(newItem: Item) {// this method is called by the components to tell the business layer to send a new character to the database from the DAL
     let methodName = 'addItem';
     try {
       this.displayLoading.next(0);
@@ -304,11 +324,11 @@ export class MainListService implements OnDestroy {
       this.loggingService.logEntry(this.className, methodName, error);
     }
   }
-  addItemCheckStatus(status) {
+  addItemCheckStatus(status) {// this listens to the DAL when a new character is added to the database, then it also updates the copy of the array in the business layer
     let methodName = 'addItemCheckStatus';
     try {
       if (status === '200') {
-        let newItem = this.dataService.responseData;
+        let newItem = this.dataService.responseData;// fetches the data from the DAL
         this.items.push(newItem);
         this.itemsChanged.next(200);
         this.displayLoading.next(200);
@@ -324,26 +344,26 @@ export class MainListService implements OnDestroy {
     }
   }
 
-  removeItem(itemDelete: Item): void {
+  removeItem(itemDelete: Item): void {// this method is called by the components to tell the business layer to delate a character in the database by telling the DAL to do that
     let methodName = 'removeItem';
     try {
       this.displayLoading.next(0);
-      this.dataService.deleteItem(itemDelete);
+      this.dataService.deleteItem(itemDelete);// this deletes the item in the database
     } catch (error) {
       this.loggingService.logEntry(this.className, methodName, error);
     }
   }
-  removeItemCheckStatus(status) {
+  removeItemCheckStatus(status) {// this listens to the DAL when a character is deleted in the database, then it also updates the copy of the array in the business layer
     let methodName = 'removeItemCheckStatus';
     try {
       if (status === '200') {
-        let itemDelete: Item = this.dataService.responseData;
+        let itemDelete: Item = this.dataService.responseData;// fetches the data from the DAL
         const indexToRemove = this.items.findIndex(
           (item) => item.id === itemDelete.id
         );
 
         if (indexToRemove !== -1) {
-          this.items.splice(indexToRemove, 1);
+          this.items.splice(indexToRemove, 1);// this removes the item from the array
           this.itemsChanged.next(200);
           // this.itemsChanged.next(this.items.slice());
           this.displayLoading.next(200);
@@ -362,7 +382,7 @@ export class MainListService implements OnDestroy {
     }
   }
 
-  updateItem(itemInfo: Item): void {
+  updateItem(itemInfo: Item): void { // this method is called by the components to tell the business layer to send the updates of a character to the database by telling the DAL to di that through the api
     let methodName = 'updateItem';
     try {
       this.displayLoading.next(0);
@@ -371,15 +391,15 @@ export class MainListService implements OnDestroy {
       this.loggingService.logEntry(this.className, methodName, error);
     }
   }
-  updateCheckStatus(status: string) {
+  updateCheckStatus(status: string) {// this listens to the DAL when a character is updated in the database, then it also updates the copy of the array in the business layer
     let methodName = 'updateCheckStatus';
     try {
       if (status === '200') {
-        let itemInfo = this.dataService.responseData;
+        let itemInfo = this.dataService.responseData;// fetches the data from the DAL
         let index = this.items.findIndex((item) => item.id === itemInfo.id);
 
         if (index !== -1) {
-          this.items[index] = itemInfo;
+          this.items[index] = itemInfo;// here it updates the copy of the array
           this.itemsChanged.next(200);
           this.displayLoading.next(200);
 
@@ -404,13 +424,24 @@ export class MainListService implements OnDestroy {
     }
   }
 
+  errorMessage(status){
+    
+    this.dialog.open(DialogComponent, {
+      data: {
+        heading: 'WARNING!',
+        body:
+          'The was an error when fetchong data from the API. Code: '+ status,
+      },
+    });
+  }
+
   getListSize() {
     return this.items.length;
   }
-  getItems() {
+  getItems() {// this returns a copy of the array with a list of all the characters
     return this.items.slice();
   }
-  getItemId(id: number) {
+  getItemId(id: number) {// this returns the item with that ID because the id and index are the same.
     return this.items[id];
   }
   ngOnDestroy() {

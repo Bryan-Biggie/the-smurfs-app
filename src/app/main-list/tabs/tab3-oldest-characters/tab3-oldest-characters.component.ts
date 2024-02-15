@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
-import { Subscription } from 'rxjs';
 import { TabCalculationsService } from 'src/app/services/tab-calculations.service';
 import { Item } from '../../item.model';
-import { MainListService } from '../../main-list.service';
 import { RendererComponent } from '../../the-list-items/ag-grid-items/renderer/renderer.component';
 import { LoggingService } from 'src/app/services/logging.service';
 import { takeWhile } from 'rxjs/operators';
@@ -19,7 +17,6 @@ export class Tab3OldestCharactersComponent implements OnInit {
   rowData: Item[] = [];
 
   colDefs: ColDef[] = [
-    //  { field: 'id' },
     { field: 'name' },
     { field: 'imagePath', cellRendererFramework: RendererComponent },
     { field: 'age', headerName: 'Height' },
@@ -48,7 +45,7 @@ export class Tab3OldestCharactersComponent implements OnInit {
       this.tabService.characterChanged
         .pipe(takeWhile(() => this.alive))
         .subscribe((code) => {
-          if (code === 200) {
+          if (code === 200) {//this fetches data from the business layer and listens if there is any changes to the data.
             this.rowData = this.tabService.getOldest();
           }
         });

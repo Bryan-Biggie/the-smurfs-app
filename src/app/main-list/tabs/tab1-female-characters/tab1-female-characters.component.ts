@@ -42,7 +42,7 @@ export class Tab1FemaleCharactersComponent implements OnInit {
   ngOnInit(): void {
     let methodName = 'ngOnInit';
     try {
-      this.tabService.characterChanged.pipe(takeWhile(() => this.alive)).subscribe((code) => {
+      this.tabService.characterChanged.pipe(takeWhile(() => this.alive)).subscribe((code) => {//this fetches data from the business layer and listens if there is any changes to the data.
         if (code === 200) {
           this.rowData = this.tabService.getGender();
         }

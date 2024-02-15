@@ -50,7 +50,7 @@ export class Tab4FirstLetterCharactersComponent implements OnInit {
       this.tabService.characterChanged
         .pipe(takeWhile(() => this.alive))
         .subscribe((code) => {
-          if (code === 200) {
+          if (code === 200) {//this fetches data from the business layer and listens if there is any changes to the data.
             this.rowData = this.tabService.getCharactersWithName();
           }
         });

@@ -26,8 +26,8 @@ export class NewListItemComponent implements OnInit {
   ngOnInit(): void {
     let methodName = 'ngOnInit';
     try {
-      if (!this.listService.isFetched) {
-        this.listService.setItems();
+      if (!this.listService.isFetched) {//this checks if the business layer has fetched the data from the database(DAL)
+        this.listService.setItems();// if not then it tells the Bussiness layer to go fetch data from the DAL
       }
       this.listSize = this.listService.getListSize();
       this.smurfForm = this.formBuilder.group({
@@ -49,12 +49,12 @@ export class NewListItemComponent implements OnInit {
     }
   }
 
-  onAddToList() {
+  onAddToList() {// this method tells the business layer to add a new character to the database
     let methodName = 'ngOnInit';
     try {
           if (this.smurfForm.valid) {
       const newItem = new Item(
-        this.listSize + 1,
+        this.listSize + 1,//this is to create an id for the character
         this.smurfForm.value.itemName,
         this.smurfForm.value.itemDescription,
         this.smurfForm.value.itemImagePath,
